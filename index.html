@@ -653,6 +653,130 @@ body.dark .figure figcaption { border-top-color: var(--a1); }
   .results-actions button { flex: 1; }
   .hidden { display: none !important; }
 
+
+/* ============================================================
+   EARNED STATES READ GREEN
+   Hand patch, applied identically to every file in the unit.
+
+   Green is added as its own token rather than by repointing
+   --a2, because --a2 in this skin also paints the primary
+   button, the marks, the story rule and the breakdown label,
+   and in Lesson 2 it now carries Source B as well. Repointing
+   would turn the whole unit green and lose the argument the
+   red and the blue are making.
+
+   The correct option fills solid, with the skin's hard offset
+   shadow, so it reads as the answer from across the room and
+   not on inspection. The asymmetry is deliberate: the option
+   you got right is loud, the one you picked and got wrong
+   stays a quiet clay tint with a firm border, because a
+   learner who is already wrong does not need it shouted at.
+
+   Measured on this skin's own grounds:
+     light  paper text on #215239      8.63 : 1
+            the fill against the page  7.76 : 1
+     dark   ink text on #8BD1A4        9.99 : 1
+   Colour is never the only signal: the tick and the cross
+   carry the state too, which matters because correct green
+   against wrong red is the hard pair for the commonest form
+   of colour blindness.
+   ============================================================ */
+:root { --ok: #215239; --ok-rgb: 33,82,57; --on-ok: #FBFAF7; }
+body.dark { --ok: #8BD1A4; --ok-rgb: 139,209,164; --on-ok: #14181C; }
+
+.option.correct, .option-btn.correct,
+body.dark .option.correct, body.dark .option-btn.correct {
+  background: var(--ok) !important;
+  border: 2px solid var(--ok) !important;
+  box-shadow: 5px 5px 0 rgba(var(--ok-rgb),0.30) !important;
+  color: var(--on-ok) !important;
+}
+.option.correct .opt-text, .option-btn.correct .opt-text,
+.option.correct .opt-letter, .option-btn.correct .opt-letter,
+.option.correct .opt-mark, .option-btn.correct .opt-mark,
+body.dark .option.correct .opt-text, body.dark .option-btn.correct .opt-text,
+body.dark .option.correct .opt-letter, body.dark .option-btn.correct .opt-letter,
+body.dark .option.correct .opt-mark, body.dark .option-btn.correct .opt-mark {
+  color: var(--on-ok) !important;
+}
+.option.correct .opt-letter, .option-btn.correct .opt-letter { opacity: 0.85; }
+
+.option.wrong, .option-btn.wrong {
+  background: var(--no-bg) !important;
+  border: 2px solid var(--a1) !important;
+  box-shadow: none !important;
+}
+.option.wrong .opt-letter, .option.wrong .opt-mark,
+.option-btn.wrong .opt-letter, .option-btn.wrong .opt-mark { color: var(--a1) !important; }
+
+/* A correctly placed item in a sort or order question is the
+   same signal, so it fills the same way. */
+.inter-item.ok, body.dark .inter-item.ok {
+  background: var(--ok) !important;
+  border: 2px solid var(--ok) !important;
+  color: var(--on-ok) !important;
+}
+.inter-item.ok span, .inter-item.ok .rank,
+body.dark .inter-item.ok span, body.dark .inter-item.ok .rank { color: var(--on-ok) !important; }
+.inter-item.ok .rank { opacity: 0.85; }
+
+/* The results bars measure what the learner earned, so they match. */
+.bd-fill { background: var(--ok) !important; }
+
+/* ---- THE TIME RAIL -------------------------------------------
+   A hook line may carry a marker, so a run of days or weeks
+   reads as a run of days or weeks rather than as a paragraph
+   broken up. Backwards compatible: a plain string line still
+   renders exactly as before.
+   ------------------------------------------------------------ */
+.story-line.marked {
+  display: grid; grid-template-columns: 4.6rem 1fr; gap: 0.85rem;
+  align-items: baseline; margin-bottom: 1.15rem;
+}
+.tl-mark {
+  font-family: var(--sans); font-size: 0.62rem; font-weight: 700;
+  letter-spacing: 0.13em; text-transform: uppercase; color: var(--a1);
+  border-left: 2px solid var(--a1); padding-left: 0.5rem; line-height: 1.5;
+}
+.tl-text { display: block; }
+.story-b .tl-mark { color: var(--a2); border-left-color: var(--a2); }
+.story-b .story-num { color: var(--a2) !important; }
+body.dark .story-b .tl-mark { color: #96C0E6; border-left-color: #96C0E6; }
+body.dark .story-b .story-num { color: #96C0E6 !important; }
+.story-line.marked + .story-line:not(.marked) { margin-top: 1.8rem; }
+/* The engine draws a short rule before the closing line with a
+   ::before. Inside a grid that pseudo element claims a cell and
+   shoves the marker and the text out of their columns, so a
+   marked closing line collapsed to one word per row. */
+.story-line.marked.last {
+  color: var(--clay) !important; font-weight: 400 !important; font-style: normal !important;
+}
+.story-line.marked.last::before { display: none !important; }
+@media (max-width: 400px) {
+  .story-line.marked { grid-template-columns: 4rem 1fr; gap: 0.7rem; }
+}
+
+
+/* ---- RAIL SIZING AND CLOSING LINE ---------------------------
+   Two corrections found by rendering at 390px.
+
+   1. The gutter was set for two word markers such as YEAR ONE,
+      which wrap. A single long word like WEDNESDAY cannot wrap
+      and spilled into the text column, so the rail is wider and
+      the marker type a step smaller.
+
+   2. Lesson 2 carried a skin rule making the closing line
+      upright; Lessons 1, 3 and 4 did not, so the same line was
+      italic in three files and roman in one. Restated here so
+      the five lessons close the same way.
+   ------------------------------------------------------------ */
+.story-line.marked { grid-template-columns: 5.2rem 1fr; gap: 0.7rem; }
+.tl-mark { font-size: 0.58rem; letter-spacing: 0.10em; }
+@media (max-width: 400px) {
+  .story-line.marked { grid-template-columns: 4.8rem 1fr; gap: 0.6rem; }
+}
+.story-line.last { font-style: normal !important; }
+
 </style>
 </head>
 <body>
@@ -722,13 +846,34 @@ const FLOW = [
   {
     "type": "story",
     "marker": "The chained gate",
-    "markerLabel": "Somewhere you know &middot; first week of term",
+    "markerLabel": "Somewhere you know &middot; the first month of term",
     "lines": [
-      "The side gate has always been open, and this term it is chained shut.",
-      "The notice on it says the chain is there for everyone's safety.",
-      "Everyone who used that gate says they were leaving early because the lessons were pointless.",
-      "The chain says more than the notice.",
-      "You worked that out from an action, not from a statement. Now do it with a government."
+      {
+        "mark": "Last term",
+        "text": "The side gate stands open, the way it has stood open for years."
+      },
+      {
+        "mark": "Week one",
+        "text": "The gate is chained shut. A notice on it says the chain is there for everyone's safety."
+      },
+      {
+        "mark": "Week two",
+        "text": "Nobody mentions an accident. Nobody mentions anything at all."
+      },
+      {
+        "mark": "Week three",
+        "text": "A teacher is now standing at the main gate at half past one every day."
+      },
+      {
+        "mark": "Today",
+        "text": "Every single person who used that side gate was leaving early."
+      },
+      {
+        "text": "**The chain says more than the notice does.**"
+      },
+      {
+        "text": "You worked that out from what somebody did, not from what they said. Now do it to a government."
+      }
     ]
   },
   {
@@ -1246,10 +1391,13 @@ function firstContentIdx(){
 function renderStory(item){
   const lines = item.lines.map((l,i)=>{
     const last = i===item.lines.length-1 ? " last" : "";
-    return `<div class="story-line${last}">${esc(l)}</div>`;
+    const o = (typeof l === "string") ? { text: l } : l;
+    const body = esc(o.text).replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+    const mk = o.mark ? `<span class="tl-mark">${esc(o.mark)}</span>` : "";
+    return `<div class="story-line${last}${o.mark?" marked":""}">${mk}<span class="tl-text">${body}</span></div>`;
   }).join("");
   stage.innerHTML = `
-    <div class="story">
+    <div class="story${item.side?" story-"+item.side:""}">
       <div class="story-num">${esc(item.marker)}</div>
       <div class="story-unit">${esc(item.markerLabel||"")}</div>
       <div class="story-rule"></div>
