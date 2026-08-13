@@ -908,6 +908,19 @@ body.dark .story-b .story-num { color: #96C0E6 !important; }
   .top-meta { padding-right: 9.5rem; }
 }
 
+
+/* ---- The wrong-answer glyph clears 4.5 on the dark ground -----
+   --a1 measured 3.76 against the wrong-option tint once the rgba
+   is composited. The tick and the cross are what carry the state
+   for a learner who cannot separate the two hues, so the glyph
+   has to be legible on its own. 5.57 after this.
+   -------------------------------------------------------------- */
+body.dark .option.wrong .opt-letter, body.dark .option.wrong .opt-mark,
+body.dark .option-btn.wrong .opt-letter, body.dark .option-btn.wrong .opt-mark,
+body.dark .inter-item.no .inter-mark, body.dark .inter-item.no .rank {
+  color: #EFA79E !important;
+}
+
 </style>
 </head>
 <body class="dark">
@@ -976,55 +989,44 @@ const RESULTS = {
 const FLOW = [
   {
     "type": "story",
-    "marker": "The chained gate",
-    "markerLabel": "Somewhere you know &middot; the first month of term",
+    "marker": "Who asked for the tanks",
+    "markerLabel": "Budapest &middot; November 1956",
     "lines": [
       {
-        "mark": "Last term",
-        "text": "The side gate stands open, the way it has stood open for years."
+        "text": "Soviet forces move into Budapest before dawn on 4 November."
       },
       {
-        "mark": "Week one",
-        "text": "The gate is chained shut. A notice on it says the chain is there for everyone's safety."
+        "text": "Moscow says it acted on a request from the Hungarian government."
       },
       {
-        "mark": "Week two",
-        "text": "Nobody mentions an accident. Nobody mentions anything at all."
+        "text": "The government that made the request was announced after the tanks were already inside the city."
       },
       {
-        "mark": "Week three",
-        "text": "A teacher is now standing at the main gate at half past one every day."
+        "text": "**Nobody had to say it.**"
       },
       {
-        "mark": "Today",
-        "text": "Every single person who used that side gate was leaving early."
-      },
-      {
-        "text": "**The chain says more than the notice does.**"
-      },
-      {
-        "text": "You worked that out from what somebody did, not from what they said. Now do it to a government."
+        "text": "You can read the order of events for yourself. In this lesson a wall goes up for a stated reason, and you will read what it was built to do."
       }
     ]
   },
   {
     "type": "question",
     "kind": "instinct",
-    "q": "What does chaining the gate actually tell you?",
+    "q": "What tells you most about why the tanks were sent?",
     "options": [
-      "That somebody in the school genuinely worried about safety there",
-      "That people were leaving, and stopping them mattered more than why",
-      "That the gate was probably unsafe and had been for years",
-      "Nothing at all, until somebody explains the real reason for it"
+      "The wording Moscow chose when it explained the decision afterwards",
+      "The order the events happened in, the request against the arrival",
+      "The number of soldiers and vehicles that entered the city that day",
+      "The fact that the fighting in the city was over within days"
     ],
     "correct": 1,
-    "explanation": "There is no score on this one. You cannot know what the school was thinking, and you do not need to. The chain is evidence that leaving was happening and had become a problem worth solving. A government is about to do the same thing at the scale of a city. It will also give you a reason that is not the reason.",
+    "explanation": "There is no score on this one. Nobody wrote down that the request came second. You worked it out by putting two dates next to each other, and that is the whole move. In this lesson a government gives a reason for building something, and the thing itself says something else. An answer that only repeats what a source states is marked as description, and description does not reach the marks this kind of question carries.",
     "noSource": true
   },
   {
     "type": "content",
     "tag": "The turn",
-    "html": "<h2>The word for what you just did</h2><p>Nobody told you people were leaving. You worked it out from what somebody did about it.</p><p>That is <strong>inference</strong>: reading what a source or an action implies rather than what it states.</p><p>Paper 1 asks it constantly. <em>What does this suggest about</em>, or <em>comment on what is implied by</em>. The marks are for the step you take beyond the words, and this lesson ends with the largest example of it in the whole topic.</p>",
+    "html": "<h2>The word for what you just did</h2><p>Nobody wrote down that the request came second. You worked it out from the order the events happened in.</p><p>That is <strong>inference</strong>: reading what a source or an action implies rather than what it states.</p><p>Paper 1 asks it constantly. <em>What does this suggest about</em>, or <em>comment on what is implied by</em>. The marks are for the step you take beyond the words, and this lesson ends with the largest example of it in the whole topic.</p>",
     "remember": "What a government does is evidence. What it says about what it did is a separate source, and the two rarely match.",
     "terms": [
       {
@@ -1432,7 +1434,7 @@ const FLOW = [
   {
     "type": "content",
     "tag": "Beyond the exam",
-    "html": "<h2>What an action admits</h2><p>The Wall was called an Anti-Fascist Protection Rampart, and it was described as keeping enemies out. Every gun on it pointed inwards.</p><p>The habit worth keeping is the one from the chained gate. When somebody's explanation and their action point in different directions, the action is the better evidence, because it cost them something to take.</p><p>That question works on a government, a company, or anyone who tells you one thing and does another. Not what do they say. What did they actually spend money on.</p>"
+    "html": "<h2>What an action admits</h2><p>The Wall was called an Anti-Fascist Protection Rampart, and it was described as keeping enemies out. Every gun on it pointed inwards.</p><p>Think back to the chained gate. When somebody's explanation and their action point in different directions, the action is the better evidence, because it cost them something to do.</p><p>That question works on a government, a company, or anyone who tells you one thing and does another. Do not ask only what they say. Ask what they actually spent money on.</p>"
   }
 ];
 
@@ -1985,7 +1987,7 @@ function showResults(){
   });
   /* The button at the end of the lesson is the thing that continues. It does
      not point at a control somewhere else on the page. */
-  document.getElementById("finish-btn").addEventListener("click",()=>{ KulaLMS.advance(); });
+  document.getElementById("finish-btn").onclick = ()=>{ KulaLMS.advance(); };
   KulaLMS.completed();
 }
 
